@@ -9,8 +9,12 @@ from api_integration.aliexpress_api import get_aliexpress_product_description
 from api_integration.real_time_amazon_api import get_realtime_amazon_data
 from data_processing.processor import process_data
 from data_processing.storage import save_to_database
+from utils.premium import generate_premium_code, send_premium_code_email
 
-# Premium access code (for demo purposes; in production, secure this value)
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+# Premium access code verification (for free trial vs. premium users)
 PREMIUM_CODE = "ACCESS123"
 
 
@@ -28,7 +32,20 @@ def check_premium_access():
 def show_payment_section():
     st.sidebar.subheader("Premium Access")
     st.sidebar.write("Access exclusive features for just $5!")
-    st.sidebar.markdown("[Click here to pay via Buy Me a Coffee](https://www.buymeacoffee.com/yourusername)")
+    st.sidebar.markdown("[Click here to pay via Ko-fi](https://ko-fi.com/yourusername)")
+
+
+def request_premium_code():
+    st.sidebar.subheader("Receive Your Premium Code")
+    buyer_email = st.sidebar.text_input("Enter your email", type="email")
+    if st.sidebar.button("Send Premium Code"):
+        if buyer_email:
+            code = generate_premium_code()
+            # Aqui, você deve armazenar o código associado ao email para validação futura.
+            send_premium_code_email(buyer_email, code)
+            st.sidebar.success(f"Premium code sent to {buyer_email}!")
+        else:
+            st.sidebar.error("Please enter a valid email address.")
 
 
 # Initialize free trial and premium state if not present
@@ -39,13 +56,14 @@ if "premium" not in st.session_state:
 
 check_premium_access()
 
-# Check free trial count or premium access
+# If not premium, show free trial status and payment option
 if not st.session_state.premium:
     if st.session_state.free_trial_count < 5:
         st.sidebar.info(f"Free Trial Usage: {st.session_state.free_trial_count}/5")
     else:
-        st.sidebar.error("Free trial limit reached. Please enter your premium access code to continue.")
+        st.sidebar.error("Free trial limit reached. Please request your premium code.")
         show_payment_section()
+        request_premium_code()
 
 st.title("MarketPulse Tracker Dashboard")
 
@@ -56,7 +74,6 @@ aliexpress_product_id = st.sidebar.text_input("AliExpress Product ID", "10050064
 amazon_asin = st.sidebar.text_input("Amazon ASIN", "B07ZPKBL9V")
 
 if st.sidebar.button("Update Data"):
-    # Check if free trial is available or if premium access is granted
     if st.session_state.premium or st.session_state.free_trial_count < 5:
         if not st.session_state.premium:
             st.session_state.free_trial_count += 1
@@ -85,7 +102,7 @@ if st.sidebar.button("Update Data"):
         else:
             st.info("Price data is not available for charting.")
     else:
-        st.error("Free trial limit reached. Please enter your premium access code to update data.")
+        st.error("Free trial limit reached. Please request your premium code to update data.")
 else:
     st.info("Click 'Update Data' from the sidebar to fetch and display data.")
 
