@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ```markdown
 # MarketPulse Tracker 🚀
 
