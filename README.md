@@ -90,11 +90,9 @@ The AliExpress API returns product details such as description, image, media, st
   ![Amazon Product Result](images/amazon.png)
 
 **Explanation:**  
-<<<<<<< HEAD
 The Amazon API extracts product details including price, which is processed to remove currency symbols and is used to generate a price comparison chart when available. 💵
 =======
 The Amazon API extracts product details including price. The price is processed to remove currency symbols and is used in the price comparison chart. 💵
->>>>>>> 07cdbc2064c38ce176f9157c72fd1399596473cd
 
 ## Service Offering on Freelance Platforms 💼
 
