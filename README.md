@@ -62,7 +62,6 @@ MarketPulse Tracker is an interactive dashboard that aggregates real-time market
   ![Web Scraper Result](images/web-scraper.png)
 
 **Explanation:**  
-<<<<<<< HEAD
 The web scraper collects data from the provided URL (Wikipedia) and extracts key information, which is then displayed in JSON format and processed into a data table. 📊
 =======
 The web scraper gathers data from the provided URL (Wikipedia in this case) and extracts key information. The raw JSON data is available for inspection in the dashboard. 📊
