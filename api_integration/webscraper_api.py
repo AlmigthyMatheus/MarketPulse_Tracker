@@ -8,7 +8,7 @@ load_dotenv()
 RAPIDAPI_KEY = os.getenv("RAPIDAPI_KEY")
 
 
-def get_web_scraper_data(url_to_scrape, summary=False, retries=3, delay=5):
+def get_web_scraper_data(url_to_scrape, summary=True, retries=3, delay=5):
     """
     Retrieves data from the new AI Web Scraper API.
 
